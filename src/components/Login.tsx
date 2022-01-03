@@ -222,7 +222,7 @@ const Login = (props: any) => {
           </Button>
 
           <span onClick={() => toggleView()} className={classes.span}>
-            {state.isLoginView ? "Create Account" : "Back to login"}
+            {state.isLoginView ? "新規登録する" : "ログイン画面へ"}
           </span>
         </div>
       </form>

@@ -1,17 +1,16 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
+import ApiContextProvider from "./context/ApiContext"
 import App from "./App"
 import Login from "./components/Login"
 import reportWebVitals from "./reportWebVitals"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { CookiesProvider } from "react-cookie"
 import { createTheme, MuiThemeProvider } from "@material-ui/core"
-import { indigo } from "@mui/material/colors"
 
 const theme = createTheme({
   palette: {
-    primary: indigo,
     secondary: {
       main: "#d45d87",
     },
@@ -25,18 +24,20 @@ const theme = createTheme({
 })
 
 ReactDOM.render(
-  <React.Fragment>
-    <BrowserRouter>
-      <CookiesProvider>
-        <MuiThemeProvider theme={theme}>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="app" element={<App />} />
-          </Routes>
-        </MuiThemeProvider>
-      </CookiesProvider>
-    </BrowserRouter>
-  </React.Fragment>,
+  <React.StrictMode>
+    <ApiContextProvider>
+      <BrowserRouter>
+        <CookiesProvider>
+          <MuiThemeProvider theme={theme}>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="app" element={<App />} />
+            </Routes>
+          </MuiThemeProvider>
+        </CookiesProvider>
+      </BrowserRouter>
+    </ApiContextProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 )
 

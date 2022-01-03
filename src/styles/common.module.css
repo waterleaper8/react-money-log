@@ -12,5 +12,5 @@
 .title {
   font-family: "Merienda", cursive;
   font-weight: 700;
-  color: #d45d87;
+  color: #d45d87 !important;
 }

@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Merienda",
     color: "white",
   },
+  appbar: {
+    zIndex: 1201,
+  },
 }))
 
 const NavBar = (props) => {
@@ -24,7 +27,7 @@ const NavBar = (props) => {
   }
 
   return (
-    <AppBar position="static" color="secondary">
+    <AppBar position="fixed" className={classes.appbar} color="secondary">
       <Toolbar>
         <button className="logo">
           <MonetizationOnIcon />

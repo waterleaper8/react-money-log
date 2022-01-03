@@ -1,15 +1,19 @@
+import { Box } from "@mui/system"
 import "./App.css"
 
-import NavBar from "./components/NavBar"
-import ApiContextProvider from "./context/ApiContext"
+import PersistentDrawerLeft from "./components/Drawer"
 import Main from "./components/Main"
+import NavBar from "./components/NavBar"
 
 function App() {
   return (
-    <ApiContextProvider>
+    <>
       <NavBar />
-      <Main />
-    </ApiContextProvider>
+      <Box sx={{ display: "flex" }}>
+        <PersistentDrawerLeft />
+        <Main />
+      </Box>
+    </>
   )
 }
 

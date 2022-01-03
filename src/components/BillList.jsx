@@ -12,17 +12,15 @@ import {
 } from "@mui/material"
 import { Paper, Snackbar, TableCell } from "@material-ui/core"
 import DeleteIcon from "@mui/icons-material/Delete"
-import CloseIcon from "@mui/icons-material/Close"
 
 const BillList = () => {
   const {
+    revertBill,
     bills,
     selectedBillId,
     setSelectedBillId,
     deleteBill,
     setBills,
-    preBills,
-    setPreBills,
   } = useContext(ApiContext)
 
   const [open, setOpen] = useState(false)
@@ -30,25 +28,19 @@ const BillList = () => {
   // 削除ボタンが押されたときの処理
   const deleteHandler = (e) => {
     setOpen(true)
-    setPreBills(bills)
     setBills(bills.filter((item) => item.id !== e.target.id))
     setSelectedBillId(e.target.id)
-    // deleteBill(e.target.id)
+    deleteBill(e.target.id)
   }
-  // Snackbarが閉じたときの処理
+  // 通知が閉じたときの処理
   const handleClose = (event, reason) => {
-    console.log(reason)
-    if (reason === "clickaway" || "timeout") {
-      deleteBill(selectedBillId)
-      setOpen(false)
-    } else {
-      setOpen(false)
-    }
+    setOpen(false)
   }
+
   // もとに戻すを押したときの処理
   const handleRevert = (event) => {
     setOpen(false)
-    setBills(preBills)
+    revertBill(selectedBillId)
   }
 
   const action = (
