@@ -8,10 +8,11 @@ import AddIcon from "@material-ui/icons/Add"
 import BillList from "./BillList"
 import CreateModal from "./CreateModal"
 import { Fab } from "@mui/material"
+import BillsSelector from "./BillsSelector"
 
 const useStyles = makeStyles({
   container: {
-    marginTop: "2rem",
+    marginTop: "1rem",
     textAlign: "center",
   },
   grid: {
@@ -37,27 +38,22 @@ const Main = (props) => {
       className={classes.container}
       maxWidth="md"
     >
-      <Grid container className={classes.grid}>
-        <Grid item xs={10}>
-          <Grid container spacing={5} mt={5} className={classes.container}>
-            <Grid item xs={12}>
-              <BillList />
-            </Grid>
-          </Grid>
-        </Grid>
+      <Grid container mt={5} className={(classes.grid, classes.container)}>
+        <BillsSelector />
+        <BillList />
       </Grid>
       <Fab
         sx={{ position: "fixed" }}
         className={classes.fab}
-        color="secondary"
+        color="primary"
         aria-label="add"
         onClick={() => setModalIsOpen(true)}
       >
         <AddIcon />
       </Fab>
       {/* <button className={classes.fab} onClick={() => setModalIsOpen(true)}>
-        <AddIcon />
-      </button> */}
+          <AddIcon />
+        </button> */}
       <CreateModal />
     </Container>
   )

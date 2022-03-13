@@ -4,18 +4,19 @@ import axios from "axios"
 
 const _ = require("lodash")
 
+export const today = formatDate(new Date())
 export const ApiContext = createContext()
 
 function formatDate(dt) {
   var y = dt.getFullYear()
   var m = ("00" + (dt.getMonth() + 1)).slice(-2)
   var d = ("00" + dt.getDate()).slice(-2)
-  return y + "-" + m + "-" + d
+  return [y, m, d]
 }
 
-function groupBy(data) {
+function groupBy(data, group) {
   const after = _(data)
-    .groupBy("pocket")
+    .groupBy(group)
     .map((value, key) => {
       return {
         pocket: key,
@@ -26,16 +27,28 @@ function groupBy(data) {
   return after
 }
 
+export function filterBills(data, year, month) {
+  const startDate = new Date(`${year}-${month}-01`)
+  const endDate = new Date(`${year}-${month}-31`)
+  const dataList = data.filter((item) => {
+    const hitDate = new Date(`${item.date}T00:00:00Z`)
+    return hitDate >= startDate && hitDate <= endDate
+  })
+  console.log(dataList)
+  return dataList
+}
+
 const ApiContextProvider = (props) => {
   const token = props.cookies.get("jwt-token")
   const [uid, setUid] = useState("")
   const [bills, setBills] = useState([])
+  const [selectedBills, setSelectedBills] = useState([])
   const [sums, setSums] = useState([])
   const [pockets, setPockets] = useState([])
   const [bill, setBill] = useState({})
   const [isCalc, setIsCalc] = useState(true)
-  const today = formatDate(new Date())
-  const [date, setDate] = useState(today)
+  const [date, setDate] = useState(today[0] + "-" + today[1] + "-" + today[2])
+  const [selectedDate, setSelectedDate] = useState(today)
   const [title, setTitle] = useState("")
   const [amount, setAmount] = useState(0)
   const [pocket, setPocket] = useState("財布")
@@ -49,7 +62,7 @@ const ApiContextProvider = (props) => {
   useEffect(() => {
     const getUid = async () => {
       try {
-        const res = await axios.get("http://192.168.11.87:8000/api/user/", {
+        const res = await axios.get("http://127.0.0.1:8000/api/user/", {
           headers: {
             Authorization: `JWT ${token}`,
           },
@@ -61,21 +74,22 @@ const ApiContextProvider = (props) => {
     }
     const getBills = async () => {
       try {
-        const res = await axios.get("http://192.168.11.87:8000/api/bills/", {
+        const res = await axios.get("http://127.0.0.1:8000/api/bills/", {
           headers: {
             Authorization: `JWT ${token}`,
           },
         })
         setBills(res.data)
-        setSums(groupBy(res.data))
-        console.log(groupBy(res.data))
+        setSelectedBills(filterBills(res.data, today[0], today[1]))
+        setSums(groupBy(res.data, "pocket"))
+        console.log(groupBy(res.data, "pocket"))
       } catch {
         console.log("error")
       }
     }
     const getPockets = async () => {
       try {
-        const res = await axios.get("http://192.168.11.87:8000/api/pockets/", {
+        const res = await axios.get("http://127.0.0.1:8000/api/pockets/", {
           headers: {
             Authorization: `JWT ${token}`,
           },
@@ -104,7 +118,7 @@ const ApiContextProvider = (props) => {
     uploadData.append("memo", memo)
     try {
       const res = await axios.post(
-        "http://192.168.11.87:8000/api/bills/",
+        "http://127.0.0.1:8000/api/bills/",
         uploadData,
         {
           headers: {
@@ -113,7 +127,14 @@ const ApiContextProvider = (props) => {
           },
         }
       )
-      setBills([res.data, ...bills])
+      const newBills = [res.data, ...bills]
+      setBills(newBills)
+      const filteredBills = filterBills(
+        newBills,
+        selectedDate[0],
+        selectedDate[1]
+      )
+      setSelectedBills(filteredBills)
       setModalIsOpen(false)
       setTitle("")
     } catch {
@@ -123,7 +144,7 @@ const ApiContextProvider = (props) => {
 
   const revertBill = async () => {
     try {
-      await axios.post("http://192.168.11.87:8000/api/bills/", bill, {
+      await axios.post("http://127.0.0.1:8000/api/bills/", bill, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${token}`,
@@ -133,7 +154,7 @@ const ApiContextProvider = (props) => {
       console.log("error")
     }
     try {
-      const res = await axios.get("http://192.168.11.87:8000/api/bills/", {
+      const res = await axios.get("http://127.0.0.1:8000/api/bills/", {
         headers: {
           Authorization: `JWT ${token}`,
         },
@@ -146,7 +167,7 @@ const ApiContextProvider = (props) => {
 
   const deleteBill = async (id) => {
     try {
-      const res = await axios.get(`http://192.168.11.87:8000/api/bills/${id}`, {
+      const res = await axios.get(`http://127.0.0.1:8000/api/bills/${id}`, {
         headers: {
           Authorization: `JWT ${token}`,
         },
@@ -156,7 +177,7 @@ const ApiContextProvider = (props) => {
       console.log("error")
     }
     try {
-      await axios.delete(`http://192.168.11.87:8000/api/bills/${id}/`, {
+      await axios.delete(`http://127.0.0.1:8000/api/bills/${id}/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${token}`,
@@ -192,6 +213,10 @@ const ApiContextProvider = (props) => {
         // 処理のためのstate群
         bills,
         setBills,
+        selectedBills,
+        setSelectedBills,
+        selectedDate,
+        setSelectedDate,
         sums,
         setSums,
         pockets,

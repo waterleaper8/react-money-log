@@ -47,7 +47,6 @@ const CreateModal = () => {
     subcategory,
     setSubcategory,
     setMemo,
-
     modalIsOpen,
     setModalIsOpen,
     newBill,
@@ -113,6 +112,7 @@ const CreateModal = () => {
             className={classes.value}
             type="text"
             onChange={(event) => setAmount(event.target.value)}
+            defaultValue="-"
           />
         </Box>
         <Box className={classes.box} mt={2}>

@@ -27,7 +27,7 @@ const NavBar = (props) => {
   }
 
   return (
-    <AppBar position="fixed" className={classes.appbar} color="secondary">
+    <AppBar position="static" className={classes.appbar} color="secondary">
       <Toolbar>
         <button className="logo">
           <MonetizationOnIcon />
@@ -37,6 +37,7 @@ const NavBar = (props) => {
         </Typography>
 
         <button className="logout" onClick={() => Logout()}>
+          <span>ログアウト</span>
           <FiLogOut />
         </button>
       </Toolbar>

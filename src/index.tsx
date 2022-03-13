@@ -7,10 +7,13 @@ import Login from "./components/Login"
 import reportWebVitals from "./reportWebVitals"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { CookiesProvider } from "react-cookie"
-import { createTheme, MuiThemeProvider } from "@material-ui/core"
+import { createTheme, ThemeProvider } from "@material-ui/core"
 
 const theme = createTheme({
   palette: {
+    primary: {
+      main: "#d45d87",
+    },
     secondary: {
       main: "#d45d87",
     },
@@ -24,20 +27,20 @@ const theme = createTheme({
 })
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ApiContextProvider>
-      <BrowserRouter>
-        <CookiesProvider>
-          <MuiThemeProvider theme={theme}>
+  <>
+    <ThemeProvider theme={theme}>
+      <ApiContextProvider>
+        <BrowserRouter>
+          <CookiesProvider>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="app" element={<App />} />
             </Routes>
-          </MuiThemeProvider>
-        </CookiesProvider>
-      </BrowserRouter>
-    </ApiContextProvider>
-  </React.StrictMode>,
+          </CookiesProvider>
+        </BrowserRouter>
+      </ApiContextProvider>
+    </ThemeProvider>
+  </>,
   document.getElementById("root")
 )
 

@@ -8,7 +8,7 @@ import ListItem from "@mui/material/ListItem"
 import PocketCard from "./PocketCard"
 import { ApiContext } from "../context/ApiContext"
 
-const drawerWidth = 240
+const DRAWER_WIDTH = 240
 
 export default function ClippedDrawer() {
   const { pockets } = useContext(ApiContext)
@@ -17,10 +17,10 @@ export default function ClippedDrawer() {
       <Drawer
         variant="permanent"
         sx={{
-          width: drawerWidth,
+          width: DRAWER_WIDTH,
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
+            width: DRAWER_WIDTH,
             boxSizing: "border-box",
           },
         }}

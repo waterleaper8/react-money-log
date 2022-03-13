@@ -1,0 +1,10 @@
+.primaryBtn {
+  background-color: #ebe8e8 !important;
+  color: rgb(80, 80, 80) !important;
+  border: 1px solid rgb(165, 165, 165) !important;
+  transition: opacity 0.3s !important;
+  &:hover {
+    opacity: 0.7;
+    transition: opacity 0.5s;
+  }
+}

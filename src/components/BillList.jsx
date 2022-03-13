@@ -17,6 +17,7 @@ const BillList = () => {
   const {
     revertBill,
     bills,
+    selectedBills,
     selectedBillId,
     setSelectedBillId,
     deleteBill,
@@ -53,7 +54,10 @@ const BillList = () => {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ maxWidth: "960px" }}>
+      <TableContainer
+        component={Paper}
+        sx={{ maxWidth: "960px", minWidth: "720px", margin: "0 auto" }}
+      >
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -68,7 +72,7 @@ const BillList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {bills.map((row) => (
+            {selectedBills.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
