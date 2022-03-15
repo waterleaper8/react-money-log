@@ -9,7 +9,7 @@ import Aside from "./components/Aside"
 
 function App() {
   return (
-    <Container style={{ padding: "0" }}>
+    <Container style={{ padding: "0 0 60px" }}>
       <NavBar />
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Aside />

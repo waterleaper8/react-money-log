@@ -12,7 +12,7 @@ export default function PocketCard(props) {
   return (
     <Card
       style={{ padding: "0 !important" }}
-      sx={{ minWidth: "192px" }}
+      sx={{ width: "192px" }}
       variant="outlined"
       component={Paper}
     >
@@ -25,10 +25,10 @@ export default function PocketCard(props) {
         >
           {props.category}
         </Typography>
-        <Typography variant="h6" sx={{ mb: 2 }}>
+        <Typography variant="subtitle1" sx={{ mb: 2 }}>
           {props.name}
         </Typography>
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="subtitle1" color="text.secondary">
           {s ? props.amount + s.sum : props.amount}円
         </Typography>
       </CardContent>

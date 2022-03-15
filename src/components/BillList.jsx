@@ -10,7 +10,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material"
-import { Paper, Snackbar, TableCell } from "@material-ui/core"
+import TableCell, { tableCellClasses } from "@mui/material/TableCell"
+import { Paper, Snackbar, styled } from "@material-ui/core"
 import DeleteIcon from "@mui/icons-material/Delete"
 
 const BillList = () => {
@@ -52,6 +53,16 @@ const BillList = () => {
     </React.Fragment>
   )
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }))
+
   return (
     <>
       <TableContainer
@@ -59,16 +70,16 @@ const BillList = () => {
         sx={{ maxWidth: "960px", minWidth: "720px", margin: "0 auto" }}
       >
         <Table aria-label="simple table">
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "#d45d87" }}>
             <TableRow>
-              <TableCell align="center">日付</TableCell>
-              <TableCell align="center">内容</TableCell>
-              <TableCell align="center">金額（円）</TableCell>
-              <TableCell align="center">出入元</TableCell>
-              <TableCell align="center">大項目</TableCell>
-              <TableCell align="center">小項目</TableCell>
-              <TableCell align="center">メモ</TableCell>
-              <TableCell align="center">削除</TableCell>
+              <StyledTableCell align="center">日付</StyledTableCell>
+              <StyledTableCell align="center">内容</StyledTableCell>
+              <StyledTableCell align="center">金額（円）</StyledTableCell>
+              <StyledTableCell align="center">出入元</StyledTableCell>
+              <StyledTableCell align="center">大項目</StyledTableCell>
+              <StyledTableCell align="center">小項目</StyledTableCell>
+              <StyledTableCell align="center">メモ</StyledTableCell>
+              <StyledTableCell align="center">削除</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

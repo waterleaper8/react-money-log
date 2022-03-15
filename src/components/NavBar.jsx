@@ -29,12 +29,16 @@ const NavBar = (props) => {
   return (
     <AppBar position="static" className={classes.appbar} color="secondary">
       <Toolbar>
-        <button className="logo">
-          <MonetizationOnIcon />
-        </button>
-        <Typography variant="h5" className={classes.title}>
-          Money Log
-        </Typography>
+        <div
+          style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+        >
+          <figure className="logo">
+            <MonetizationOnIcon />
+          </figure>
+          <Typography variant="h5" className={classes.title}>
+            Money Log
+          </Typography>
+        </div>
 
         <button className="logout" onClick={() => Logout()}>
           <span>ログアウト</span>

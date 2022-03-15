@@ -23,6 +23,9 @@ const theme = createTheme({
     allVariants: {
       color: "#555555",
     },
+    subtitle1: {
+      fontSize: 18,
+    },
   },
 })
 
