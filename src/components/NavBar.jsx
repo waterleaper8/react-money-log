@@ -27,7 +27,7 @@ const NavBar = (props) => {
   }
 
   return (
-    <AppBar position="static" className={classes.appbar} color="secondary">
+    <AppBar position="static" className={classes.appbar} color="primary">
       <Toolbar>
         <div
           style={{ display: "flex", alignItems: "center", cursor: "pointer" }}

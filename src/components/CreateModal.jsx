@@ -51,7 +51,6 @@ const CreateModal = () => {
     setModalIsOpen,
     newBill,
     pockets,
-    pocketsProccessed,
   } = useContext(ApiContext)
 
   const customStyles = {

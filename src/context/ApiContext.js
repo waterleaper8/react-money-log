@@ -67,9 +67,13 @@ const ApiContextProvider = (props) => {
   const [pocketsProccessed, setPocketsProccessed] = useState([])
 
   useEffect(() => {
-    getUid()
-    getBills()
-    getPockets()
+    if (token) {
+      getUid()
+      getBills()
+      getPockets()
+    } else {
+      return
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 

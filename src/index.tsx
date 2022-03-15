@@ -7,27 +7,8 @@ import Login from "./components/Login"
 import reportWebVitals from "./reportWebVitals"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { CookiesProvider } from "react-cookie"
-import { createTheme, ThemeProvider } from "@material-ui/core"
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#d45d87",
-    },
-    secondary: {
-      main: "#d45d87",
-    },
-  },
-  typography: {
-    fontFamily: "M PLUS 1",
-    allVariants: {
-      color: "#555555",
-    },
-    subtitle1: {
-      fontSize: 18,
-    },
-  },
-})
+import { ThemeProvider } from "@material-ui/core"
+import { theme } from "./theme"
 
 ReactDOM.render(
   <>
