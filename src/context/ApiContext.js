@@ -71,7 +71,13 @@ const ApiContextProvider = (props) => {
     getBills()
     getPockets()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, pocket])
+  }, [token])
+
+  useEffect(() => {
+    console.log(bills)
+    setSums(groupBy(bills, "pocket"))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bills])
 
   useEffect(() => {
     const data = pockets.map((pocket) => {
@@ -82,7 +88,8 @@ const ApiContextProvider = (props) => {
     })
     setPocketsProccessed(data)
     console.log(data)
-  }, [pockets])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pockets, filterBills])
 
   const getUid = async () => {
     try {
@@ -144,12 +151,7 @@ const ApiContextProvider = (props) => {
       })
       const newBills = [res.data, ...bills]
       setBills(newBills)
-      const filteredBills = filterBills(
-        newBills,
-        selectedDate[0],
-        selectedDate[1]
-      )
-      setSelectedBills(filteredBills)
+      setSelectedBills(filterBills(newBills, selectedDate[0], selectedDate[1]))
       setModalIsOpen(false)
       setTitle("")
     } catch {

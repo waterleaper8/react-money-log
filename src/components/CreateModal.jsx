@@ -50,6 +50,8 @@ const CreateModal = () => {
     modalIsOpen,
     setModalIsOpen,
     newBill,
+    pockets,
+    pocketsProccessed,
   } = useContext(ApiContext)
 
   const customStyles = {
@@ -130,11 +132,15 @@ const CreateModal = () => {
             className={classes.value}
             label="出入元"
             onChange={(event) => setPocket(event.target.value)}
-            defaultValue={pocket}
+            defaultValue="財布"
           >
-            <MenuItem value={"財布"}>財布</MenuItem>
-            <MenuItem value={"PayPay"}>PayPay</MenuItem>
-            <MenuItem value={"auPay"}>auPay</MenuItem>
+            {pockets.map((pocket) => {
+              return (
+                <MenuItem key={pocket.id} value={pocket.name}>
+                  {pocket.name}
+                </MenuItem>
+              )
+            })}
           </Select>
         </Box>
         <Box className={classes.box} mt={2}>
@@ -151,37 +157,24 @@ const CreateModal = () => {
             <MenuItem value={"食費"}>食費</MenuItem>
           </Select>
         </Box>
-        {category === "食費" ? (
-          <Box className={classes.box} mt={2}>
-            <Typography variant="body2" className={classes.item}>
-              小項目
-            </Typography>
-            <Select
-              className={classes.value}
-              label="小項目"
-              onChange={(event) => setSubcategory(event.target.value)}
-              defaultValue={subcategory}
-            >
-              <MenuItem value={"野菜"}>野菜</MenuItem>
-              <MenuItem value={"お肉"}>お肉</MenuItem>
-              <MenuItem value={"調味料"}>調味料</MenuItem>
-            </Select>
-          </Box>
-        ) : (
-          <Box className={classes.box} mt={2}>
-            <Typography variant="body2" className={classes.item}>
-              小項目
-            </Typography>
-            <Select
-              className={classes.value}
-              label="小項目"
-              onChange={(event) => setSubcategory(event.target.value)}
-              defaultValue={subcategory}
-            >
-              <MenuItem value={"未分類"}>未分類</MenuItem>
-            </Select>
-          </Box>
-        )}
+
+        <Box className={classes.box} mt={2}>
+          <Typography variant="body2" className={classes.item}>
+            小項目
+          </Typography>
+          <Select
+            className={classes.value}
+            label="小項目"
+            onChange={(event) => setSubcategory(event.target.value)}
+            defaultValue={subcategory}
+          >
+            <MenuItem value={"未分類"}>未分類</MenuItem>
+            <MenuItem value={"外食"}>外食</MenuItem>
+            <MenuItem value={"野菜"}>野菜</MenuItem>
+            <MenuItem value={"お肉"}>お肉</MenuItem>
+            <MenuItem value={"調味料"}>調味料</MenuItem>
+          </Select>
+        </Box>
         <Box className={classes.box} mt={2}>
           <Typography variant="body2" className={classes.item}>
             メモ

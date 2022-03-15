@@ -144,6 +144,7 @@ const Login = (props: any) => {
           .catch((err) => {
             console.log(err)
           })
+        console.log(res)
       } catch {
         dispatch({ type: ERROR_CATCHED })
       }
