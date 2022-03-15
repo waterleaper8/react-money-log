@@ -4,6 +4,9 @@ import axios from "axios"
 
 const _ = require("lodash")
 
+export const endpoint = "http://localhost:8000"
+// export const endpoint = "http://192.168.11.87:8000"
+
 export const today = formatDate(new Date())
 export const ApiContext = createContext()
 
@@ -83,7 +86,7 @@ const ApiContextProvider = (props) => {
 
   const getUid = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/user/", {
+      const res = await axios.get(`${endpoint}/api/user/`, {
         headers: {
           Authorization: `JWT ${token}`,
         },
@@ -95,7 +98,7 @@ const ApiContextProvider = (props) => {
   }
   const getBills = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/bills/", {
+      const res = await axios.get(`${endpoint}/api/bills/`, {
         headers: {
           Authorization: `JWT ${token}`,
         },
@@ -109,7 +112,7 @@ const ApiContextProvider = (props) => {
   }
   const getPockets = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/pockets/", {
+      const res = await axios.get(`${endpoint}/api/pockets/`, {
         headers: {
           Authorization: `JWT ${token}`,
         },
@@ -133,16 +136,12 @@ const ApiContextProvider = (props) => {
     uploadData.append("subcategory", subcategory)
     uploadData.append("memo", memo)
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/api/bills/",
-        uploadData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `JWT ${token}`,
-          },
-        }
-      )
+      const res = await axios.post(`${endpoint}/api/bills/`, uploadData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${token}`,
+        },
+      })
       const newBills = [res.data, ...bills]
       setBills(newBills)
       const filteredBills = filterBills(
@@ -160,7 +159,7 @@ const ApiContextProvider = (props) => {
 
   const revertBill = async () => {
     try {
-      await axios.post("http://127.0.0.1:8000/api/bills/", bill, {
+      await axios.post(`${endpoint}/api/bills/`, bill, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${token}`,
@@ -170,7 +169,7 @@ const ApiContextProvider = (props) => {
       console.log("error")
     }
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/bills/", {
+      const res = await axios.get(`${endpoint}/api/bills/`, {
         headers: {
           Authorization: `JWT ${token}`,
         },
@@ -183,7 +182,7 @@ const ApiContextProvider = (props) => {
 
   const deleteBill = async (id) => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/api/bills/${id}`, {
+      const res = await axios.get(`${endpoint}/api/bills/${id}`, {
         headers: {
           Authorization: `JWT ${token}`,
         },
@@ -193,7 +192,7 @@ const ApiContextProvider = (props) => {
       console.log("error")
     }
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/bills/${id}/`, {
+      await axios.delete(`${endpoint}/api/bills/${id}/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${token}`,
@@ -214,16 +213,12 @@ const ApiContextProvider = (props) => {
     uploadData.append("name", pocketName)
     uploadData.append("amount", pocketAmount)
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/api/pockets/",
-        uploadData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `JWT ${token}`,
-          },
-        }
-      )
+      const res = await axios.post(`${endpoint}/api/pockets/`, uploadData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${token}`,
+        },
+      })
       const newPockets = [res.data, ...pockets]
       setPocket(newPockets)
       setPocketModalIsOpen(false)

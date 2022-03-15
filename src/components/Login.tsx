@@ -17,6 +17,7 @@ import {
   TOGGLE_MODE,
 } from "./actionTypes"
 import styles from "../styles/common.module.css"
+import { endpoint } from "../context/ApiContext"
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -123,19 +124,26 @@ const Login = (props: any) => {
     if (state.isLoginView) {
       try {
         dispatch({ type: START_FETCH })
-        const res = await axios.post(
-          `http://127.0.0.1:8000/authen/jwt/create/`,
-          // `http://192.168.11.87:8000/authen/jwt/create/`,
-          state.credentialsLog,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        props.cookies.set("jwt-token", res.data.access)
-        res.data.access
-          ? (window.location.href = "/app")
-          : (window.location.href = "/")
-        dispatch({ type: FETCH_SUCCESS })
+        const res = await axios
+          .post(
+            `${endpoint}/authen/jwt/create/`,
+            // `http://192.168.11.87:8000/authen/jwt/create/`,
+            state.credentialsLog,
+            {
+              headers: { "Content-Type": "application/json" },
+            }
+          )
+          .then((res) => {
+            props.cookies.set("jwt-token", res.data.access)
+            res.data.access
+              ? (window.location.href = "/app")
+              : (window.location.href = "/")
+            dispatch({ type: FETCH_SUCCESS })
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       } catch {
         dispatch({ type: ERROR_CATCHED })
       }
@@ -143,7 +151,7 @@ const Login = (props: any) => {
       try {
         dispatch({ type: START_FETCH })
         await axios.post(
-          `http://127.0.0.1:8000//api/create/`,
+          `${endpoint}/api/create/`,
           // `http://192.168.11.87:8000/api/create/`,
           state.credentialsLog,
           {
@@ -152,7 +160,7 @@ const Login = (props: any) => {
         )
         // 登録に成功したら、そのままログインする
         const res = await axios.post(
-          `http://127.0.0.1:8000//authen/jwt/create/`,
+          `${endpoint}/authen/jwt/create/`,
           // `http://192.168.11.87:8000/authen/jwt/create/`,
           state.credentialsLog,
           {
