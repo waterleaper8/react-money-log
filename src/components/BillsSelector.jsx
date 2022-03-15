@@ -45,6 +45,7 @@ const BillsSelector = () => {
 
   return (
     <Box sx={{ display: "flex", gap: "15px" }} mb={3}>
+      <Box sx={{ flexGrow: "2" }}></Box>
       <Button
         className="primaryBtn"
         variant="outlined"

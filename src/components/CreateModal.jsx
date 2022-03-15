@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { ApiContext } from "../context/ApiContext"
 import { makeStyles } from "@material-ui/core/styles"
 
@@ -66,6 +66,13 @@ const CreateModal = () => {
     },
   }
 
+  useEffect(() => {
+    modalIsOpen
+      ? (document.body.style.overflowX = "hidden")
+      : (document.body.style.overflowX = "auto")
+    return
+  }, [modalIsOpen])
+
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -110,9 +117,9 @@ const CreateModal = () => {
           </Typography>
           <TextField
             className={classes.value}
-            type="text"
-            onChange={(event) => setAmount(event.target.value)}
-            defaultValue="-"
+            type="number"
+            onChange={(event) => setAmount(event.target.value * -1)}
+            defaultValue={amount}
           />
         </Box>
         <Box className={classes.box} mt={2}>
@@ -127,6 +134,7 @@ const CreateModal = () => {
           >
             <MenuItem value={"財布"}>財布</MenuItem>
             <MenuItem value={"PayPay"}>PayPay</MenuItem>
+            <MenuItem value={"auPay"}>auPay</MenuItem>
           </Select>
         </Box>
         <Box className={classes.box} mt={2}>

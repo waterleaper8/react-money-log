@@ -9,6 +9,9 @@ import BillList from "./BillList"
 import CreateModal from "./CreateModal"
 import { Fab } from "@mui/material"
 import BillsSelector from "./BillsSelector"
+import AddPocketModal from "./AddPocketModal"
+import PocketsPieGraph from "./PocketsPieGraph"
+import { Box } from "@mui/system"
 
 const useStyles = makeStyles({
   container: {
@@ -38,6 +41,9 @@ const Main = (props) => {
       className={classes.container}
       maxWidth="md"
     >
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <PocketsPieGraph />
+      </Box>
       <Grid container mt={5} className={(classes.grid, classes.container)}>
         <BillsSelector />
         <BillList />
@@ -51,10 +57,8 @@ const Main = (props) => {
       >
         <AddIcon />
       </Fab>
-      {/* <button className={classes.fab} onClick={() => setModalIsOpen(true)}>
-          <AddIcon />
-        </button> */}
       <CreateModal />
+      <AddPocketModal />
     </Container>
   )
 }

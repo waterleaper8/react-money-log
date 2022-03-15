@@ -34,7 +34,6 @@ export function filterBills(data, year, month) {
     const hitDate = new Date(`${item.date}T00:00:00Z`)
     return hitDate >= startDate && hitDate <= endDate
   })
-  console.log(dataList)
   return dataList
 }
 
@@ -58,51 +57,68 @@ const ApiContextProvider = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [deleteSnackbarIsOpen, setDeleteSnackbarIsOpen] = useState(false)
   const [selectedBillId, setSelectedBillId] = useState("")
+  const [pocketName, setPocketName] = useState("")
+  const [pocketCategory, setPocketCategory] = useState("現金管理")
+  const [pocketAmount, setPocketAmount] = useState(0)
+  const [pocketModalIsOpen, setPocketModalIsOpen] = useState(false)
+  const [pocketsProccessed, setPocketsProccessed] = useState([])
 
   useEffect(() => {
-    const getUid = async () => {
-      try {
-        const res = await axios.get("http://127.0.0.1:8000/api/user/", {
-          headers: {
-            Authorization: `JWT ${token}`,
-          },
-        })
-        setUid(res.data[0].id)
-      } catch {
-        console.log("error")
-      }
-    }
-    const getBills = async () => {
-      try {
-        const res = await axios.get("http://127.0.0.1:8000/api/bills/", {
-          headers: {
-            Authorization: `JWT ${token}`,
-          },
-        })
-        setBills(res.data)
-        setSelectedBills(filterBills(res.data, today[0], today[1]))
-        setSums(groupBy(res.data, "pocket"))
-        console.log(groupBy(res.data, "pocket"))
-      } catch {
-        console.log("error")
-      }
-    }
-    const getPockets = async () => {
-      try {
-        const res = await axios.get("http://127.0.0.1:8000/api/pockets/", {
-          headers: {
-            Authorization: `JWT ${token}`,
-          },
-        })
-        setPockets(res.data)
-      } catch {
-        console.log("error")
-      }
-    }
     getUid()
     getBills()
     getPockets()
-  }, [token])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, pocket])
+
+  useEffect(() => {
+    const data = pockets.map((pocket) => {
+      return {
+        name: pocket.name,
+        amount: pocket.amount,
+      }
+    })
+    setPocketsProccessed(data)
+    console.log(data)
+  }, [pockets])
+
+  const getUid = async () => {
+    try {
+      const res = await axios.get("http://127.0.0.1:8000/api/user/", {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      })
+      setUid(res.data[0].id)
+    } catch {
+      console.log("error")
+    }
+  }
+  const getBills = async () => {
+    try {
+      const res = await axios.get("http://127.0.0.1:8000/api/bills/", {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      })
+      setBills(res.data)
+      setSelectedBills(filterBills(res.data, today[0], today[1]))
+      setSums(groupBy(res.data, "pocket"))
+    } catch {
+      console.log("error")
+    }
+  }
+  const getPockets = async () => {
+    try {
+      const res = await axios.get("http://127.0.0.1:8000/api/pockets/", {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      })
+      setPockets(res.data)
+    } catch {
+      console.log("error")
+    }
+  }
 
   const newBill = async (e) => {
     e.preventDefault()
@@ -190,6 +206,32 @@ const ApiContextProvider = (props) => {
     }
   }
 
+  const addPocket = async (e) => {
+    e.preventDefault()
+    const uploadData = new FormData()
+    uploadData.append("create_user", uid)
+    uploadData.append("category", pocketCategory)
+    uploadData.append("name", pocketName)
+    uploadData.append("amount", pocketAmount)
+    try {
+      const res = await axios.post(
+        "http://127.0.0.1:8000/api/pockets/",
+        uploadData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `JWT ${token}`,
+          },
+        }
+      )
+      const newPockets = [res.data, ...pockets]
+      setPocket(newPockets)
+      setPocketModalIsOpen(false)
+    } catch {
+      console.log("error")
+    }
+  }
+
   return (
     <ApiContext.Provider
       value={{
@@ -210,6 +252,13 @@ const ApiContextProvider = (props) => {
         setSubcategory,
         memo,
         setMemo,
+        // pocket追加のstate群
+        pocketCategory,
+        setPocketCategory,
+        pocketName,
+        setPocketName,
+        pocketAmount,
+        setPocketAmount,
         // 処理のためのstate群
         bills,
         setBills,
@@ -223,6 +272,8 @@ const ApiContextProvider = (props) => {
         setPockets,
         modalIsOpen,
         setModalIsOpen,
+        pocketModalIsOpen,
+        setPocketModalIsOpen,
         deleteSnackbarIsOpen,
         setDeleteSnackbarIsOpen,
         selectedBillId,
@@ -230,6 +281,9 @@ const ApiContextProvider = (props) => {
         newBill,
         revertBill,
         deleteBill,
+        addPocket,
+        pocketsProccessed,
+        setPocketsProccessed,
       }}
     >
       {props.children}
